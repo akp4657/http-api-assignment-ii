@@ -1,0 +1,28 @@
+{
+  "name": "http-api-assignment-ii",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "node ./src/server.js",
+    "pretest": "eslint ./src --fix",
+    "test": "echo \"Tests complete\"",
+    "nodemon": "nodemon -e js,html,css --watch ./src --watch ./client ./src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/akp4657/http-api-assignment-ii.git"
+  },
+  "author": "Anthony Pichardo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/akp4657/http-api-assignment-ii/issues"
+  },
+  "homepage": "https://github.com/akp4657/http-api-assignment-ii#readme",
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-plugin-import": "^2.20.1",
+    "nodemon": "^2.0.2"
+  }
+}
