@@ -8,42 +8,43 @@
   <script type="text/babel">
 
 
-    //function to handle our response
+    // Handling response
     const handleResponse = (xhr, parseResponse) => {
       const content = document.querySelector('#content');
       
-      //check the status code
+      // Check the status code
       switch(xhr.status) {
         case 200: //success
           content.innerHTML = `<b>Success</b>`;
           break;
-        case 201: //created
+        case 201: // Created
           content.innerHTML = '<b>Create</b>';
           break;
-        case 204: //updated (no response back from server)
+        case 204: // Updated
           content.innerHTML = '<b>Updated (No Content)</b>';
           return;
-        case 400: //bad request
+        case 400: // Bad Request
           content.innerHTML = `<b>Bad Request</b>`;
           break;
-        default: //any other status code
+        default:
           content.innerHTML = `<b>Error code not implemented by client.</b>`;
           break;
       }
 
       if(parseResponse) {
-        //parse response (obj will be empty in a 204 updated)
+
+        // Parse the response
         const obj = JSON.parse(xhr.response);
         console.dir(obj);
       
-        //if message in response, add to screen
+        // If we need the message, display it
         if(obj.message) {
           const p = document.createElement('p');
           p.textContent = `Message: ${obj.message}`;
           content.appendChild(p);
         }
       
-        //if users in response, add to screen
+        //  If it's just users, display users
         if(obj.users) {
           const userList = document.createElement('p');
           const users = JSON.stringify(obj.users);
@@ -54,53 +55,60 @@
 
     };
 
-    //function to send our post request
+    // Function to handle post request from class demo
     const sendPost = (e, nameForm) => {
+      
       //prevent the browser's default action (to send the form on its own)
       e.preventDefault();
       
+      // Get the html elements
       const nameAction = nameForm.getAttribute('action');
       const nameMethod = nameForm.getAttribute('method');
       const nameField = nameForm.querySelector('#nameField');
       const ageField = nameForm.querySelector('#ageField');
-      
       const xhr = new XMLHttpRequest();
+
+      // Initialize the request
       xhr.open(nameMethod, nameAction);
       
+      // Set the headers
       xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
       xhr.setRequestHeader ('Accept', 'application/json');
 
-      xhr.onload = () => handleResponse(xhr);
+      // Handle the response
+      xhr.onload = () => handleResponse(xhr, true);
       
       const formData = `name=${nameField.value}&age=${ageField.value}`;
       
-      //send our request with the data
+      // Send our request with the data
       xhr.send(formData);
     
-      //return false to prevent the browser from trying to change page
+      // Return false to prevent the browser from trying to change page
       return false;
     };
 
-    // Handling 
+    // Handling the updates in the form from demo
     const requestUpdate = (e, userForm) => {
+      
       //cancel browser's default action
       e.preventDefault();
       
       const url = userForm.querySelector('#urlField').value;
       const method = userForm.querySelector('#methodSelect').value;
       
-      //create a new AJAX request (asynchronous)
+      // Create a new AJAX request
       const xhr = new XMLHttpRequest();
       xhr.open(method, url);
       xhr.setRequestHeader('Accept', 'application/json');
 
-      //if get request or head request
+      // If the method is get or head
       if(method == 'get') {
         xhr.onload = () => handleResponse(xhr, true);
       } else {
         xhr.onload = () => handleResponse(xhr, false);
       }
       
+      // Send the AJAX request
       xhr.send();
       
       return false;

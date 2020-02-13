@@ -38,8 +38,7 @@ const notRealMeta = (request, response) => respondJSONMeta(request, response, 40
 
 // Add a user with POST method from class
 const addUser = (request, response, body) => {
-  
-    // Default message is it fails
+  // Default message is it fails
   const responseJSON = {
     message: 'Name and age are both required.',
   };

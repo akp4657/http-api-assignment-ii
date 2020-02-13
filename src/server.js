@@ -24,13 +24,16 @@ const urlStruct = {
   },
 };
 
-// Handle POST requests
+// Handle POST requests from class demo
 const handlePost = (request, response, parsedUrl) => {
+  
+  // If we're in addUser of course
   if (parsedUrl.pathname === '/addUser') {
+    
     const res = response;
-
     const body = [];
 
+    // If there's an error, return a 400 and leave the function
     request.on('error', (err) => {
       console.dir(err);
       res.statusCode = 400;
@@ -41,12 +44,12 @@ const handlePost = (request, response, parsedUrl) => {
       body.push(chunk);
     });
 
-    // on end of upload stream.
+    // On end of upload stream.
     request.on('end', () => {
       const bodyString = Buffer.concat(body).toString();
       const bodyParams = query.parse(bodyString);
 
-      // pass to our addUser function
+      // Pass to the addUser function
       jsonHandler.addUser(request, res, bodyParams);
     });
   }
@@ -54,7 +57,6 @@ const handlePost = (request, response, parsedUrl) => {
 
 // Handling both GET and HEAD requests
 const handleOther = (request, response, parsedUrl) => {
-  // route to correct method based on url
   if (urlStruct[request.method][parsedUrl.pathname]) {
     urlStruct[request.method][parsedUrl.pathname](request, response);
   } else {
